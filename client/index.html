@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tic Tac Toe</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .box {
+        height: 150px;
+        width: 100%;
+        border: 2px solid gray;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="playercard">
+      <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+          <div class="card">
+            <div class="card-header text-center fw-bold">Enter name</div>
+            <div class="card-body">
+              <input
+                type="text"
+                id="pl1"
+                placeholder="Enter name"
+                class="form-control"
+              /><br />
+              <input
+                type="text"
+                id="pl2"
+                placeholder="Enter name"
+                class="form-control"
+              /><br />
+              <button class="btn btn-primary w-100" onclick="Gamestart()">
+                Start Game
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container my-5" id="output"></div>
+
+    <div class="container d-none" id="gamecard">
+      <div class="row">
+        <div class="col-sm-8 offset-sm-1">
+          <div class="card">
+            <div class="card-header">Tic Tac Toe</div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <h6 id="player1">Player 1</h6>
+                        <strong id="player1WinCount">0</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <h6 id="player2">Player 2</h6>
+                        <strong id="player2WinCount">0</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <h6>Draw</h6>
+                        <strong id="drawCount">0</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <h6>Total</h6>
+                        <strong id="totalCount">0 </strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <div class="box" onclick="game('b1')" id="b1">1</div>
+                </div>
+                <div class="col-4">
+                  <div class="box" onclick="game('b2')" id="b2">2</div>
+                </div>
+                <div class="col-4">
+                  <div class="box" onclick="game('b3')" id="b3">3</div>
+                </div>
+                <div class="col-4">
+                  <div class="box" onclick="game('b4')" id="b4">4</div>
+                </div>
+                <div class="col-4">
+                  <div class="box" onclick="game('b5')" id="b5">5</div>
+                </div>
+                <div class="col-4">
+                  <div class="box" onclick="game('b6')" id="b6">6</div>
+                </div>
+                <div class="col-4">
+                  <div class="box" onclick="game('b7')" id="b7">7</div>
+                </div>
+                <div class="col-4">
+                  <div class="box" onclick="game('b8')" id="b8">8</div>
+                </div>
+                <div class="col-4">
+                  <div class="box" onclick="game('b9')" id="b9">9</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      let chance = "p1";
+      const playercard = document.getElementById("playercard");
+      const gamecard = document.getElementById("gamecard");
+
+      let player1 = document.getElementById("player1");
+      let player2 = document.getElementById("player2");
+
+      const player1WinCount = document.getElementById("player1WinCount");
+      const player2WinCount = document.getElementById("player2WinCount");
+      const drawCount = document.getElementById("drawCount");
+      const totalCount = document.getElementById("totalCount");
+
+      let p1Count = 0,
+        p2Count = 1,
+        dCount = 0,
+        tCount = 0;
+
+      let player1Name, player2Name;
+      function Gamestart() {
+        player1Name = document.getElementById("pl1").value;
+        player2Name = document.getElementById("pl2").value;
+
+        // console.log(player1Name,player2Name);
+        if (player1Name === "" || player2Name === "") {
+          console.log("Please enter name");
+          document.getElementById("output").innerHTML = `
+                <div class="alert alert-danger">Please Enter Name</div>`;
+          setTimeout(() => {
+            document.getElementById("output").innerHTML = "";
+          }, 2000);
+        } else {
+          player1.innerHTML = player1Name;
+          player2.innerHTML = player2Name;
+          playercard.classList.add("d-none");
+          gamecard.classList.remove("d-none");
+        }
+      }
+      function game(id) {
+        const box = document.getElementById(id);
+
+        const isRed = box.classList.contains("bg-danger");
+        const isGreen = box.classList.contains("bg-success");
+        if (!isRed && !isGreen) {
+          if (chance === "p1") {
+            box.classList.add("bg-danger");
+            box.innerHTML = `<h1>X</h1>`;
+            chance = "p2";
+          } else {
+            box.classList.add("bg-success");
+            box.innerHTML = `<h1>O</h1>`;
+            chance = "p1";
+          }
+          // console.log("game running......");
+        }
+        // winner()
+        // checkallfill()
+
+        if (!winner() && checkAllFill()) {
+          console.log("Match draw");
+          resetGame();
+        }
+      }
+
+      function winner() {
+        return (
+          checkWinner("b1", "b2", "b3", "bg-danger") ||
+          checkWinner("b4", "b5", "b6", "bg-danger") ||
+          checkWinner("b7", "b8", "b9", "bg-danger") ||
+          checkWinner("b1", "b4", "b7", "bg-danger") ||
+          checkWinner("b2", "b5", "b8", "bg-danger") ||
+          checkWinner("b3", "b6", "b9", "bg-danger") ||
+          checkWinner("b1", "b5", "b9", "bg-danger") ||
+          checkWinner("b3", "b5", "b7", "bg-danger") ||
+          checkWinner("b1", "b2", "b3", "bg-success") ||
+          checkWinner("b4", "b5", "b6", "bg-success") ||
+          checkWinner("b7", "b8", "b9", "bg-success") ||
+          checkWinner("b1", "b4", "b7", "bg-success") ||
+          checkWinner("b2", "b5", "b8", "bg-success") ||
+          checkWinner("b3", "b6", "b9", "bg-success") ||
+          checkWinner("b1", "b5", "b9", "bg-success") ||
+          checkWinner("b3", "b5", "b7", "bg-success")
+        );
+        // const isBox1Green =document.getElementById("b1").classList.contains("bg-success")
+        // const isBox2Green =document.getElementById("b2").classList.contains("bg-success")
+        // const isBox3Green =document.getElementById("b3").classList.contains("bg-success")
+        // if(isBox1Green && isBox2Green && isBox3Green) {
+        //     console.log("🎉 Green is winner");
+        // }
+      }
+
+      function checkWinner(id1, id2, id3, color) {
+        const isBox1 = document.getElementById(id1).classList.contains(color);
+        const isBox2 = document.getElementById(id2).classList.contains(color);
+        const isBox3 = document.getElementById(id3).classList.contains(color);
+        // const isBox4 =document.getElementById(id4).classList.contains(color)
+        // const isBox5 =document.getElementById(id5).classList.contains(color)
+        // const isBox6 =document.getElementById(id6).classList.contains(color)
+        // const isBox7 =document.getElementById(id7).classList.contains(color)
+        // const isBox8 =document.getElementById(id8).classList.contains(color)
+        // const isBox9 =document.getElementById(id9).classList.contains(color)
+        if (isBox1 && isBox2 && isBox3) {
+          console.log(`🎉 ${color} is winner`);
+          document.getElementById("output").innerHTML = `
+                
+                <div class="alert alert-success">${
+                  color === "bg-danger" ? "player1" : "player2"
+                } Win</div>`;
+
+          setTimeout(function () {
+            document.getElementById("output").innerHTML = "";
+          }, 3000);
+          setTimeout(function () {
+            resetGame();
+          }, 2000);
+
+          color === "bg-danger" ? p1Count++ : p2Count++;
+
+          return true;
+        }
+        return false;
+      }
+
+      function resetGame() {
+        for (let i = 1; i <= 9; i++) {
+          document.getElementById(`b${i}`).innerHTML = i;
+          document.getElementById(`b${i}`).classList.remove("bg-success");
+          document.getElementById(`b${i}`).classList.remove("bg-danger");
+        }
+        tCount++;
+        stat();
+        // console.log(tCount);
+      }
+
+      function stat() {
+        totalCount.innerHTML = tCount;
+        drawCount.innerHTML = dCount;
+        player1WinCount.innerHTML = p1Count;
+        player2WinCount.innerHTML = p2Count;
+      }
+
+      function checkAllFill() {
+        let boxCount = 0;
+        for (let i = 1; i <= 9; i++) {
+          const isRed = document
+            .getElementById(`b${i}`)
+            .classList.contains("bg-danger");
+          const isGreen = document
+            .getElementById(`b${i}`)
+            .classList.contains("bg-success");
+          if (isRed || isGreen) {
+            boxCount++;
+          }
+        }
+        console.log(boxCount);
+        return boxCount === 9 ? true : false;
+      }
+    </script>
+  </body>
+</html>
